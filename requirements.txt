@@ -1,0 +1,9 @@
+html-testrunner
+mysql-connector-python
+appium-python-client
+selenium
+requests
+opencv-python
+numpy
+pillow
+allure-pytest==2.43.0
