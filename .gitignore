@@ -1,3 +1,7 @@
 helper/DBConfig.py
 *.pem
 id_rsa
+allure-2.43.0/allure-report/
+allure-results/
+allure-report.zip
+allure-2.43.0/

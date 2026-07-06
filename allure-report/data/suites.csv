@@ -1,8 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","3815","test_03_change_app_language","SFX-Mobile-Automation.tests","2026-07-03","passed","2026-07-03","AppSettingsTest","AppSettingsTest","",""
-"","2570","test_01_navigate_to_app_settings","SFX-Mobile-Automation.tests","2026-07-03","passed","2026-07-03","AppSettingsTest","AppSettingsTest","",""
-"","3049","test_07_back_to_homepage","SFX-Mobile-Automation.tests","2026-07-03","passed","2026-07-03","AppSettingsTest","AppSettingsTest","",""
-"","3289","test_05_check_for_app_update","SFX-Mobile-Automation.tests","2026-07-03","passed","2026-07-03","AppSettingsTest","AppSettingsTest","",""
-"","2943","test_04_notifications_settings","SFX-Mobile-Automation.tests","2026-07-03","passed","2026-07-03","AppSettingsTest","AppSettingsTest","",""
-"","4237","test_02_battery_and_sim_settings","SFX-Mobile-Automation.tests","2026-07-03","passed","2026-07-03","AppSettingsTest","AppSettingsTest","",""
-"","18196","test_06_report_app_issue","SFX-Mobile-Automation.tests","2026-07-03","passed","2026-07-03","AppSettingsTest","AppSettingsTest","",""
