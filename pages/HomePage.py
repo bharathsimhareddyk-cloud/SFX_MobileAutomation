@@ -16,8 +16,6 @@ class HomePage(BasePage):
     DUTY_STATUS = (AppiumBy.ID, 'in.shadowfax.gandalf.staging:id/dutyText')
     DUTY_SWITCH = (AppiumBy.ID, 'in.shadowfax.gandalf.staging:id/dutySwitch')
 
-
-
     def __init__(self, driver):
         super().__init__(driver)
 

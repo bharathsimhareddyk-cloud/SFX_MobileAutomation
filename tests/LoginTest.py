@@ -10,8 +10,6 @@ from pages.PermissionsAndLanguagePage import PermissionsAndLanguagePage
 
 class LoginTest(unittest.TestCase):
 
-
-
     def setUp(self):
         # AndroidDriver.clear_app_data()
         self.driver = AndroidDriver().get_android_driver()
@@ -19,7 +17,7 @@ class LoginTest(unittest.TestCase):
         self.loginAndOTPPage = LoginAndOTPPage(self.driver)
 
     def tearDown(self):
-         AndroidDriver().terminate_app()
+        AndroidDriver().terminate_app()
 
     def navigate_past_permissions_and_language(self, language="English"):
         # time.sleep(2)
@@ -38,6 +36,7 @@ class LoginTest(unittest.TestCase):
         self.loginAndOTPPage.enter_otp(otp)
         self.loginAndOTPPage.submit_otp()
         self.permissionPage.allow_permissions()
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -17,6 +17,7 @@ class InsuranceTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         AndroidDriver().terminate_app()
+
     # @classmethod
     # def tearDownClass(cls):
     #     try:
@@ -24,31 +25,22 @@ class InsuranceTest(unittest.TestCase):
     #     except Exception:
     #         pass
 
-        # Do NOT terminate the app
+    # Do NOT terminate the app
 
     def test_01_insurance_test(self):
-        self.insurancePage.click_hamburger_menu()
-        self.insurancePage.click_insurance()
-        sleep(2)
-        self.insurancePage.click_help()
-        sleep(2)
-        self.insurancePage.click_insurance_related_issue()
-        sleep(2)
-        self.insurancePage.click_radiobutton_issue_detail_list()
-        self.insurancePage.click_next_issue_confirm()
-        sleep(2)
-        self.insurancePage.click_navigate_back()
-        sleep(2)
-        self.insurancePage.click_your_tickets()
-        self.insurancePage.click_issues()
-        self.insurancePage.click_faq()
-        sleep(2)
-        self.insurancePage.click_close()
-        sleep(2)
-        self.insurancePage.click_help_back_button()
-        sleep(2)
-        self.insurancePage.click_view_insurance_details()
-        sleep(3)
-        self.insurancePage.click_accept()
-        self.insurancePage.click_back()
-        self.insurancePage.click_home_view()
+        self.insurancePage.wait_and_click(self.insurancePage.HAMBURGER_MENU)
+        self.insurancePage.wait_and_click(self.insurancePage.INSURANCE)
+        self.insurancePage.wait_and_click(self.insurancePage.HELP)
+        self.insurancePage.wait_and_click(self.insurancePage.INSURANCE_RELATED_ISSUE)
+        self.insurancePage.wait_and_click(self.insurancePage.RADIOBUTTON_ISSUE_DETAIL_LIST)
+        self.insurancePage.wait_and_click(self.insurancePage.NEXT_ISSUE_CONFIRM)
+        self.insurancePage.wait_and_click(self.insurancePage.NAVIGATE_BACK)
+        self.insurancePage.wait_and_click(self.insurancePage.YOUR_TICKETS)
+        self.insurancePage.wait_and_click(self.insurancePage.ISSUES)
+        self.insurancePage.wait_and_click(self.insurancePage.FAQ)
+        self.insurancePage.wait_and_click(self.insurancePage.CLOSE)
+        self.insurancePage.wait_and_click(self.insurancePage.HELP_BACK_BUTTON)
+        self.insurancePage.wait_and_click(self.insurancePage.VIEW_INSURANCE_DETAILS)
+        self.insurancePage.wait_and_click(self.insurancePage.ACCEPT)
+        self.insurancePage.wait_and_click(self.insurancePage.BACK_BUTTON)
+        self.insurancePage.wait_and_click(self.insurancePage.HOME_VIEW)

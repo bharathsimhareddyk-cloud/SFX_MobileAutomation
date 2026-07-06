@@ -1,98 +1,68 @@
-# ============================
-# Select Tests
-# ============================
+# ── Test Selection ────────────────────────────────────────────────────────────
+$runLogin        = $false
+$runHome         = $false
+$runProfile      = $false
+$runInsurance    = $false
+$runCashDeposit  = $false
+$runLogout       = $false
+$runReferAndEarn = $false
+$runAppSettings  = $true
 
-$runLogin      = $false
-$runHome       = $false
-$runProfile    = $true
-$runInsurance  = $false
-$runLogout     = $false
+# Specify a single test to run, or leave empty to run all tests in InsuranceTest.py
+$insuranceTest  = "test_01_Insurance_Test"
 
-# Leave empty to run the entire InsuranceTest.py
-$insuranceTest = "test_01_insurance_test"
-
-# ============================
-# Build Test List
-# ============================
-
+# ── Build Test List ───────────────────────────────────────────────────────────
 $testFiles = @()
 
-if ($runLogin)      { $testFiles += "tests/LoginTest.py" }
-if ($runHome)       { $testFiles += "tests/HomePageTest.py" }
-if ($runProfile)    { $testFiles += "tests/ProfileSectionTest.py" }
+if ($runLogin)         { $testFiles += "tests/LoginTest.py" }
+if ($runHome)          { $testFiles += "tests/HomePageTest.py" }
+if ($runProfile)       { $testFiles += "tests/ProfileSectionTest.py" }
+if ($runInsurance)     { $testFiles += "tests/InsuranceTest.py" }
+if ($runCashDeposit)   { $testFiles += "tests/CashDepositTest.py" }
+if ($runLogout)        { $testFiles += "tests/Logout.py" }
+if ($runReferAndEarn)  { $testFiles += "tests/ReferAndEarnTest.py" }
+if ($runAppSettings)   { $testFiles += "tests/AppSettingsTest.py"}
 
 if ($runInsurance) {
-    if ([string]::IsNullOrWhiteSpace($insuranceTest)) {
+    if ([string]::IsNullOrWhiteSpace($InsuranceTest)) {
         $testFiles += "tests/InsuranceTest.py"
-    }
-    else {
-        $testFiles += "tests/InsuranceTest.py::InsuranceTest::$insuranceTest"
+    } else {
+        $testFiles += "tests/InsuranceTest.py::InsuranceTest::$InsuranceTest"
     }
 }
 
-if ($runLogout) { $testFiles += "tests/Logout.py" }
-
 if ($testFiles.Count -eq 0) {
-    Write-Host "❌ No tests selected."
+    Write-Host "No tests selected. Set at least one `$run* flag to `$true." -ForegroundColor Red
     exit
 }
 
-# ============================
-# Clean Previous Results
-# ============================
-
-if (Test-Path "allure-results") {
-    Remove-Item "allure-results" -Recurse -Force
+# ── Clean Previous Results ────────────────────────────────────────────────────
+@("allure-results", "allure-report") | ForEach-Object {
+    if (Test-Path $_) { Remove-Item $_ -Recurse -Force }
 }
 
-if (Test-Path "allure-report") {
-    Remove-Item "allure-report" -Recurse -Force
-}
+# ── Run Tests ─────────────────────────────────────────────────────────────────
+Write-Host "`n=======================================" -ForegroundColor Cyan
+Write-Host " Running Selected Test Cases..."        -ForegroundColor Cyan
+Write-Host "=======================================`n" -ForegroundColor Cyan
 
-# ============================
-# Run Tests
-# ============================
-
-Write-Host ""
-Write-Host "======================================="
-Write-Host "Running Selected Test Cases..."
-Write-Host "======================================="
-
-$testFiles | ForEach-Object { Write-Host $_ }
+$testFiles | ForEach-Object { Write-Host "  $_" -ForegroundColor Yellow }
 
 pytest $testFiles -v -s --alluredir=allure-results
 
-# ============================
-# Generate Allure Report
-# ============================
-
-Write-Host ""
-Write-Host "Generating Allure Report..."
-
+# ── Generate Allure Report ────────────────────────────────────────────────────
+Write-Host "`nGenerating Allure Report..." -ForegroundColor Cyan
 allure generate allure-results --clean -o allure-report
 
-
-# ============================
-# Send Slack Notification
-# ============================
-
-Write-Host ""
-Write-Host "Sending Slack Notification..."
-
+# ── Send Slack Notification ───────────────────────────────────────────────────
+Write-Host "`nSending Slack Notification..." -ForegroundColor Cyan
 .\.venv\Scripts\python.exe .\slack_notification.py
+Write-Host "Slack notification sent." -ForegroundColor Green
 
-Write-Host "Slack notification completed."
+# ── Open Allure Report (opens the already-generated report, no re-generation) ─
+Write-Host "`nOpening Allure Report..." -ForegroundColor Cyan
+allure open allure-report
 
-# ============================
-# Open Allure Report
-# ============================
-
-Write-Host ""
-Write-Host "Opening Allure Report..."
-
-allure serve allure-results
-
-Write-Host ""
-Write-Host "======================================="
-Write-Host "Execution Completed Successfully"
-Write-Host "======================================="
+Write-Host "`n=======================================" -ForegroundColor Green
+Write-Host " Execution Completed Successfully"       -ForegroundColor Green
+Write-Host "=======================================`n" -ForegroundColor Green

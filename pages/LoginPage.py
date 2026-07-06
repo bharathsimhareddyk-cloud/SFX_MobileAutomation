@@ -41,7 +41,6 @@ class LoginAndOTPPage(BasePage):
     SNACKBAR_TV = (AppiumBy.ID, 'in.shadowfax.gandalf.staging:id/snackbar_text')
     NAV_BACK = (AppiumBy.ID, 'in.shadowfax.gandalf.staging:id/iv_back')
 
-
     def __init__(self, driver):
         super().__init__(driver)
 
@@ -53,6 +52,7 @@ class LoginAndOTPPage(BasePage):
         field.clear()
         if mobile_number:
             field.send_keys(mobile_number)
+
     def click_continue(self):
         if self.is_element_present(self.CONTINUE_BUTTON):
             self.click_element(self.CONTINUE_BUTTON)
@@ -144,4 +144,3 @@ class LoginAndOTPPage(BasePage):
 
     def navigate_back(self):
         self.click_element(self.NAV_BACK)
-

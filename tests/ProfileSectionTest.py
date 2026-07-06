@@ -1,6 +1,4 @@
 import unittest
-from time import sleep
-
 from helper.BaseMobileUtil import AndroidDriver
 from pages.ProfileSectionPage import ProfileSectionPage
 from pages.PermissionsAndLanguagePage import PermissionsAndLanguagePage
@@ -17,6 +15,7 @@ class ProfileSectionTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         AndroidDriver().terminate_app()
+
     # @classmethod
     # def tearDownClass(cls):
     #     try:
@@ -25,32 +24,22 @@ class ProfileSectionTest(unittest.TestCase):
     #         pass
 
     def test_01_profile_section(self):
-        # Navigate to Personal Info screen
-        self.profileSectionPage.click_hamburger_menu()
-        self.profileSectionPage.click_profile_navigation_button()
-        sleep(2)
-        self.profileSectionPage.click_personalinfo()
-        sleep(2)
-        self.profileSectionPage.click_back()
-        sleep(2)
-        self.profileSectionPage.click_my_documents()
-        sleep(2)
-        self.profileSectionPage.click_bank_account()
-        sleep(2)
-        self.profileSectionPage.click_back()
-        self.profileSectionPage.click_back()
-        self.profileSectionPage.click_shadowfax_kit()
-        self.profileSectionPage.click_back()
-        self.profileSectionPage.click_terms_and_conditions()
-        sleep(2)
-        self.profileSectionPage.click_back()
-        self.profileSectionPage.click_whatsapp_toggle()
-        sleep(2)
-        self.profileSectionPage.click_whatsapp_toggle()
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.HAMBURGER_MENU)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.PROFILE_NAVIGATION_BUTTON)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.PERSONAL_INFO)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.BACK_BUTTON)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.MY_DOCUMENTS)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.BANK_ACCOUNT)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.BACK_BUTTON)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.BACK_BUTTON)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.SHADOWFAX_KIT)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.BACK_BUTTON)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.TERMS_AND_CONDITIONS)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.BACK_BUTTON)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.WHATSAPP_TOGGLE)
+        self.profileSectionPage.wait_and_click(self.profileSectionPage.WHATSAPP_TOGGLE)
 
-
-        # self.profileSectionPage.click_sign_out()
-
+        # self.profileSectionPage.wait_and_click(self.profileSectionPage.SIGN_OUT)
 
 
 if __name__ == '__main__':

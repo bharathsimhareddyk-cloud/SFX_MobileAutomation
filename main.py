@@ -1,69 +1,71 @@
-import subprocess
 import unittest
 
 from HtmlTestRunner import HTMLTestRunner
 from helper.TestConfigs import RIDER_CONFIG, TestConfig
-# from tests.EarningsTest import EarningsTest
-# from tests.HomePageTest import HomePageTest
 from tests.LoginTest import LoginTest
-from helper.TestConfigs import TestConfig, RIDER_CONFIG
+
+# Uncomment to enable additional test suites
+# from tests.EarningsTest        import EarningsTest
+# from tests.HomePageTest        import HomePageTest
+# from tests.ReferAndEarnTest    import ReferAndEarnTest
+# from tests.SlotsTest           import SlotsTest
+# from tests.MyProfileTest       import MyProfileTest
+# from tests.MyDocumentsTest     import MyDocumentsTest
+# from tests.HelpTest            import HelpTest
 
 
-# from tests.MyDocumentsTest import MyDocumentsTest
-# from tests.MyProfileTest import MyProfileTest
-# from tests.ReferAndEarnTest import ReferAndEarnTest
-# from tests.SlotsTest import SlotsTest
-# from tests.HelpTest import HelpTest
+# ── Test Filter ───────────────────────────────────────────────────────────────
+def add_tests_for_rider(suite, test_case_class, rider):
+    """
+    Adds tests to the suite based on rider type naming convention:
+      - 'rider_type_all'    → always added
+      - 'rider_type_<name>' → added only if <name> matches rider
+      - no 'rider_type_'    → added only for 'default' rider
+    """
+    loader     = unittest.TestLoader()
+    test_names = loader.getTestCaseNames(test_case_class)
 
-def add_tests_specific_to_rider_type(suite, test_case_class, rider):
-    loader = unittest.TestLoader()
-    test_list = loader.getTestCaseNames(test_case_class)
-    for name in test_list:
-        add_test = False
-        # For non default rider, test to be added only if test name has string "rider_type_<rider>"
-        if 'rider_type_' in name:
-            if name.split('rider_type_')[1] == rider:
-                add_test = True
-        # If test name does not have string "rider_type", add the test only if rider is default
-        else:
-            if rider == 'default':
-                add_test = True
-
+    for name in test_names:
         if 'rider_type_all' in name:
-            add_test = True
-
-        if add_test:
+            suite.addTest(test_case_class(name))
+        elif 'rider_type_' in name:
+            if name.split('rider_type_')[1] == rider:
+                suite.addTest(test_case_class(name))
+        elif rider == 'default':
             suite.addTest(test_case_class(name))
 
+
+# ── Test Runner ───────────────────────────────────────────────────────────────
 def run_test_suite():
-    # subprocess.run("adb shell pm clear in.shadowfax.gandalf.staging", shell=True)
-    # skip_users = ['default', 'onb_pnd', 'btdm_upnd', 'btdm_uapr', 'fdm']
-    skip_users = []
+    skip_users = []  # add rider types here to skip e.g. ['onb_pnd', 'fdm']
+
     for rider_type in RIDER_CONFIG['mobile_number'].keys():
         if rider_type in skip_users:
             continue
+
         TestConfig().set_type(rider_type)
-        # Preparing test suite (order of tests to run)
         suite = unittest.TestSuite()
-        loader = unittest.TestLoader()
 
-        # Add tests based on rider type
-        add_tests_specific_to_rider_type(suite, LoginTest, rider_type)
+        # ── Active Tests ──────────────────────────────────────────────────────
+        add_tests_for_rider(suite, LoginTest, rider_type)
 
-        # All below tests assume login test is performed.
-        # add_tests_specific_to_rider_type(suite, HomePageTest, rider_type)
-        # add_tests_specific_to_rider_type(suite, EarningsTest, rider_type)
-        # add_tests_specific_to_rider_type(suite, ReferAndEarnTest, rider_type)
-        # add_tests_specific_to_rider_type(suite, SlotsTest, rider_type)
-        # add_tests_specific_to_rider_type(suite, MyProfileTest, rider_type)
-        # add_tests_specific_to_rider_type(suite, MyDocumentsTest, rider_type)
-        # add_tests_specific_to_rider_type(suite, HelpTest, rider_type)
+        # ── Inactive Tests (uncomment to enable) ──────────────────────────────
+        # add_tests_for_rider(suite, HomePageTest,     rider_type)
+        # add_tests_for_rider(suite, EarningsTest,     rider_type)
+        # add_tests_for_rider(suite, ReferAndEarnTest, rider_type)
+        # add_tests_for_rider(suite, SlotsTest,        rider_type)
+        # add_tests_for_rider(suite, MyProfileTest,    rider_type)
+        # add_tests_for_rider(suite, MyDocumentsTest,  rider_type)
+        # add_tests_for_rider(suite, HelpTest,         rider_type)
 
-        # Configure runner and run the suite
-        runner = HTMLTestRunner(combine_reports=True, open_in_browser=False, report_name=rider_type)
+        runner = HTMLTestRunner(
+            combine_reports  = True,
+            open_in_browser  = False,
+            report_name      = rider_type
+        )
         runner.run(suite)
 
 
-# If called from shell, execute this
+# ── Entry Point ───────────────────────────────────────────────────────────────
 if __name__ == '__main__':
     run_test_suite()
